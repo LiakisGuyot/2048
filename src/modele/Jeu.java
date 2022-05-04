@@ -16,6 +16,33 @@ public class Jeu extends Observable {
         rnd();
     }
 
+    public boolean CanMove(Direction D, Case kase) {
+        Point p = map.get(kase);
+        switch(D) {
+            case haut:
+                if(p.y <= 0) {
+                    return false;
+                }
+                break;
+            case bas:
+                if(p.y >= this.getSize()) {
+                    return false;
+                }
+                break;
+            case gauche:
+                if(p.x <= 0) {
+                    return false;
+                }
+                break;
+            case droite:
+                if(p.x >= this.getSize()) {
+                    return false;
+                }
+                break;
+        }
+        return true;
+    }
+
     public int getSize() {
         return tabCases.length;
     }

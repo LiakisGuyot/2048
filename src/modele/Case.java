@@ -11,4 +11,8 @@ public class Case {
         return valeur;
     }
 
+    public void Fuse() {
+        valeur *= 2;
+    }
+
 }
