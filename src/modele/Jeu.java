@@ -1,11 +1,16 @@
 package modele;
 
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Random;
 
 public class Jeu extends Observable {
+
     private Case[][] tabCases;
+    private Point[][] tabPoint; //
     private static Random rnd = new Random(4);
+    private HashMap<Case, Point> map = new HashMap<Case, Point>();; //
+
     public Jeu(int size) {
         tabCases = new Case[size][size];
         rnd();
@@ -17,6 +22,25 @@ public class Jeu extends Observable {
 
     public Case getCase(int i, int j) {
         return tabCases[i][j];
+    }
+
+    public Case getCaseInDirection(Direction D, Case kase) {
+        Point p = map.get(kase);
+        switch(D) {
+            case haut:
+                p.y += 1;
+                break;
+            case bas:
+                p.y -= 1;
+                break;
+            case gauche:
+                p.x += 1;
+                break;
+            case droite:
+                p.x -= 1;
+                break;
+        }
+        return tabCases[p.x][p.y];
     }
 
 
@@ -45,8 +69,31 @@ public class Jeu extends Observable {
             }
 
         }.start();
+
+
         setChanged();
         notifyObservers();
+
+
+    }
+
+    public void Move(Direction D, Case kase) {
+        Point p = map.get(kase);
+        switch(D) {
+            case haut:
+                p.y += 1;
+                break;
+            case bas:
+                p.y -= 1;
+                break;
+            case gauche:
+                p.x += 1;
+                break;
+            case droite:
+                p.x -= 1;
+                break;
+        }
+        map.replace(kase, p);
     }
 
     public void mouvement(Direction direction) {
