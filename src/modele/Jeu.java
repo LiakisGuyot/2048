@@ -7,7 +7,7 @@ import java.util.Random;
 public class Jeu extends Observable {
 
     private Case[][] tabCases;
-    private Point[][] tabPoint; //
+//Pour suppresion case faire un tabCases = null et removede la HashMap
     private static Random rnd = new Random(4);
     private HashMap<Case, Point> map = new HashMap<Case, Point>();; //
 
