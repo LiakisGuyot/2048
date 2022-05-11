@@ -21,4 +21,11 @@ public class Case {
         valeur *= 2;
     }
 
+    public boolean canIFuseWith(Case kase) {
+        if (this.valeur == kase.getValeur() && kase.isFusionable() == true) {
+            Fuse();
+            return true;
+        }
+        return false;
+    }
 }
