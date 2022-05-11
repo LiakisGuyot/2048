@@ -160,6 +160,7 @@ public class Jeu extends Observable {
                         }
                         break;
 
+
                 }
                 setChanged();
                 notifyObservers();
@@ -168,18 +169,69 @@ public class Jeu extends Observable {
 
     }
 
-    public void MoveCase(Direction D, Case kase) {
-        while (CanMove(D, kase)) {
-            Case nextCase = getCaseInDirection(D, kase);
-            if (nextCase == null) {
-                Move(D, kase);
-            }
-            else if (kase.canIFuseWith(nextCase)) {
-                //Delete previous case ?
-                Move(D, kase);
-            }
-        }
+    public void jouerVers(Direction direction){
+        new Thread() {
+
+         public void run() {
+             //On regarde le sens dans lequel on déplace le jeu
+             switch (direction) {
+                 case gauche:
+                     //On parcour les lignes de haut en bas
+                     for(int y = 0; y < tabCases.length; y++){
+                        //On parcour la ligne y de gauche à droite
+                         for (int x = 0; x < tabCases.length; x++) {
+                             //INSTRUCTIONS
+                         }
+                     }
+                     break;
+
+
+                 case droite:
+                     //On  parcour les y lignes
+                     for(int y = 0; y < tabCases.length; y++){
+                         //On parcour la ligne y de droite à gauche
+                         for(int x = tabCases.length -1; x >= 0; x--){
+                             //INSTRUCTIONS
+                         }
+                     }
+
+                     break;
+                 case haut:
+                     //On parcour les x colones
+                     for(int x = 0; x < tabCases.length; x++){
+                         //On parcour la x colone de haut en bas
+                         for(int y = 0; y < tabCases.length; y++){
+                             //INSTRUCTION
+                         }
+                     }
+
+                     break;
+                 case bas:
+                     //On parcour les x colones
+                     for(int x = 0; x < tabCases.length; x++){
+                         //On parcour la colone x de bas en haut
+                         for(int y = tabCases.length -1; y >= 0; y--){
+                             //INSTRUCTIONS
+                         }
+                     }
+
+                     break;
+
+
+
+
+             }
+
+
+             //Mise à jour côté graphique
+             setChanged();
+             notifyObservers();
+         }
+        }.start();
+
     }
+
+
 
 
 
