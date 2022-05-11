@@ -232,6 +232,20 @@ public class Jeu extends Observable {
     }
 
 
+    public void MoveCase(Direction D, Case kase) {
+        while (CanMove(D, kase)) {
+            Case nextCase = getCaseInDirection(D, kase);
+            if (nextCase == null) {
+                Move(D, kase);
+            }
+            else if (kase.canIFuseWith(nextCase)) {
+                //Delete previous case ?
+                Move(D, kase);
+            }
+        }
+    }
+
+
 
 
 
