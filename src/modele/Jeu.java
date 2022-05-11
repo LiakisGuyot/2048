@@ -159,11 +159,13 @@ public class Jeu extends Observable {
                             }
                         }
                         break;
+
                 }
+                setChanged();
+                notifyObservers();
             }
         }.start();
-        setChanged();
-        notifyObservers();
+
     }
 
 
