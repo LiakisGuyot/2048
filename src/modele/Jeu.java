@@ -9,11 +9,21 @@ public class Jeu extends Observable {
     private Case[][] tabCases;
 //Pour suppresion case faire un tabCases = null et removede la HashMap
     private static Random rnd = new Random(4);
-    private HashMap<Case, Point> map = new HashMap<Case, Point>();; //
+    private HashMap<Case, Point> map = new HashMap<Case, Point>();
 
     public Jeu(int size) {
         tabCases = new Case[size][size];
         rnd();
+        InitHashMap();
+    }
+
+    public void InitHashMap() {
+        for(int y = 0; y < tabCases.length; y++){
+            //On parcour la ligne y de gauche à droite
+            for (int x = 0; x < tabCases.length; x++) {
+                this.map.put(tabCases[x][y], new Point(x, y));
+            }
+        }
     }
 
     public boolean CanMove(Direction D, Case kase) {
