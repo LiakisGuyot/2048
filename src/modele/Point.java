@@ -4,17 +4,17 @@ public class Point {
     int x, y;
 
     public Point() {
-        x = 0;
-        y = 0;
+        this.x = 0;
+        this.y = 0;
     }
 
     public Point(int i, int j) {
-        x = i;
-        y = j;
+        this.x = i;
+        this.y = j;
     }
 
     public void SetCoords(int i, int j) {
-        x = i;
-        y = j;
+        this.x = i;
+        this.y = j;
     }
 }

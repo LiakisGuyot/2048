@@ -6,19 +6,19 @@ public class Case {
     private boolean fusionnable;
 
     public Case(int _valeur) {
-        valeur = _valeur;
-        fusionnable = true;
+        this.valeur = _valeur;
+        this.fusionnable = true;
     }
 
     public int getValeur() {
-        return valeur;
+        return this.valeur;
     }
     public void setValeur(int valeur) {this.valeur = valeur;}
-    public boolean isFusionable() {return fusionnable;}
+    public boolean isFusionable() {return this.fusionnable;}
     public void setFusionnable(boolean fusionnable) {this.fusionnable = fusionnable;}
 
     public void Fuse() {
-        valeur *= 2;
+        this.valeur *= 2;
     }
 
     public boolean canIFuseWith(Case kase) {

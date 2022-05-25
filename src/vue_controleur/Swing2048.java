@@ -89,10 +89,10 @@ public class Swing2048 extends JFrame implements Observer {
             @Override
             public void keyPressed(KeyEvent e) {
                 switch(e.getKeyCode()) {  // on regarde quelle touche a été pressée
-                    case KeyEvent.VK_LEFT : jeu.mouvement(Direction.gauche); break;
-                    case KeyEvent.VK_RIGHT : jeu.mouvement(Direction.droite); break;
-                    case KeyEvent.VK_DOWN : jeu.mouvement(Direction.bas); break;
-                    case KeyEvent.VK_UP : jeu.mouvement(Direction.haut); break;
+                    case KeyEvent.VK_LEFT : jeu.jouerVers(Direction.gauche); break;
+                    case KeyEvent.VK_RIGHT : jeu.jouerVers(Direction.droite); break;
+                    case KeyEvent.VK_DOWN : jeu.jouerVers(Direction.bas); break;
+                    case KeyEvent.VK_UP : jeu.jouerVers(Direction.haut); break;
                 }
             }
         });
