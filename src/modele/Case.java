@@ -19,11 +19,13 @@ public class Case {
 
     public void Fuse() {
         this.valeur *= 2;
+        this.fusionnable = false;
     }
 
     public boolean canIFuseWith(Case kase) {
         if (this.valeur == kase.getValeur() && kase.isFusionable() == true) {
             Fuse();
+
             return true;
         }
         return false;

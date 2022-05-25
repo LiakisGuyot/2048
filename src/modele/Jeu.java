@@ -90,6 +90,7 @@ public class Jeu extends Observable {
     }
     public void Move(Direction D, Case kase) {
         Point p = map.get(kase);
+        tabCases[p.x][p.y]=null;
         switch(D) {
             case haut:
                 p.x -= 1;
@@ -104,12 +105,13 @@ public class Jeu extends Observable {
                 p.y += 1;
                 break;
         }
+        tabCases[p.x][p.y]=kase;
         map.put(kase, p);
     }
 
     public void MoveCase(Direction D, Case kase) {
         System.out.println("    //Je regarde si je peux bouger");
-        if(!CanMove(D,kase)){System.out.println("   //Je ne peux pas bouger");}
+        if(!CanMove(D,kase)){System.out.println("   //Je ne peux pas bouger"); }
         while (CanMove(D, kase)) {
             System.out.println("        //Je peux bouger, je regarde quel est la case à coté de moi");
             Case nextCase = getCaseInDirection(D, kase);
@@ -121,7 +123,12 @@ public class Jeu extends Observable {
             }
             else if (kase.canIFuseWith(nextCase)) {
                 //Delete previous case ?
+                Point p = map.get(nextCase);
+                tabCases[p.x][p.y]=null;
+                map.remove(nextCase);
+                nextCase = null;
                 Move(D, kase);
+
             }
         }
     }
@@ -189,6 +196,7 @@ public class Jeu extends Observable {
                              System.out.println("Je me situe à la case ["+x+"]["+y+"]");
                              if(tabCases[x][y]!=null) {
                                  MoveCase(direction, getCase(x, y));
+                                 tabCases[x][y].setFusionnable(true);
                              }
                          }
                      }
@@ -205,6 +213,9 @@ public class Jeu extends Observable {
                                  MoveCase(direction, getCase(x, y));
                              }
                          }
+                         for(int y = tabCases.length -1; y >= 0; y--){
+                             if(tabCases[x][y]!=null){tabCases[x][y].setFusionnable(true);}
+                         }
                      }
 
                      break;
@@ -216,6 +227,7 @@ public class Jeu extends Observable {
                              System.out.println("Je me situe à la case ["+x+"]["+y+"]");
                              if(tabCases[x][y]!=null) {
                                  MoveCase(direction, getCase(x, y));
+                                 tabCases[x][y].setFusionnable(true);
                              }
                          }
                      }
@@ -284,7 +296,7 @@ public class Jeu extends Observable {
                 if(p.y>3){outofrange=true;}
                 break;
         }
-        if(outofrange = true){return null;}
+
         return tabCases[p.x][p.y];
     }
 
