@@ -7,6 +7,10 @@ public class Point {
         this.x = 0;
         this.y = 0;
     }
+    public Point( Point ap){
+        this.x = ap.x;
+        this.y = ap.y;
+    }
 
     public Point(int i, int j) {
         this.x = i;

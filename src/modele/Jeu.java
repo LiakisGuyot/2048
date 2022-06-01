@@ -60,8 +60,8 @@ public class Jeu extends Observable {
 
     //region Differents tests
     public boolean CanMove(Direction D, Case kase) {
+        if(kase == null){return false;}
         Point p = map.get(kase);
-        if(kase !=null) {
             switch (D) {
                 case haut:
                     if (p.x <= 0) {
@@ -84,9 +84,12 @@ public class Jeu extends Observable {
                     }
                     break;
             }
+            Case nextCase = getCaseInDirection(D, kase);
+            if(nextCase == null){return true;}
+            if(nextCase.isFusionable() == false || nextCase.getValeur()!=kase.getValeur() ){
+                return false;
+            }
             return true;
-        }
-        return false;
     }
     public void Move(Direction D, Case kase) {
         Point p = map.get(kase);
@@ -112,27 +115,30 @@ public class Jeu extends Observable {
 
     public void MoveCase(Direction D, Case kase) {
         System.out.println("    //Je regarde si je peux bouger");
-        if(!CanMove(D,kase)){System.out.println("   //Je ne peux pas bouger"); }
-        while (CanMove(D, kase)) {
-                System.out.println("        //Je peux bouger, je regarde quel est la case à coté de moi");
-            Case nextCase = getCaseInDirection(D, kase);
-                                if(nextCase != null) {
-                                    System.out.println("        //La case à coté de moi à pour valeur" + nextCase.getValeur());
-                                }
-            if (nextCase == null) {
-                Move(D, kase);
-            }
-            else if (kase.canIFuseWith(nextCase)) {
-                //Delete previous case ?
-                Point pnextcase = map.get(nextCase);
-                Point pcurrentcase = map.get(kase);
-                tabCases[pcurrentcase.x][pcurrentcase.y] = null;
-                tabCases[pnextcase.x][pnextcase.y] = kase;
-                pcurrentcase = pnextcase;
-                map.put(kase,pcurrentcase);
-                map.remove(nextCase);
-                nextCase = null;
+        if(CanMove(D,kase)==false){
+            System.out.println("   //Je ne peux pas bouger");
+        }else{
+            while (CanMove(D, kase)==true) {
+                    System.out.println("        //Je peux bouger, je regarde quel est la case à coté de moi");
+                Case nextCase = getCaseInDirection(D, kase);
+                                    if(nextCase != null) {
+                                        System.out.println("        //La case à coté de moi à pour valeur" + nextCase.getValeur());
+                                    }
+                if (nextCase == null) {
+                    Move(D, kase);
+                }
+                else if (kase.canIFuseWith(nextCase)) {
+                    //Delete previous case ?
+                    Point pnextcase = map.get(nextCase);
+                    Point pcurrentcase = map.get(kase);
+                    tabCases[pcurrentcase.x][pcurrentcase.y] = null;
+                    tabCases[pnextcase.x][pnextcase.y] = kase;
+                    pcurrentcase = pnextcase;
+                    map.put(kase,pcurrentcase);
+                    map.remove(nextCase);
+                    nextCase = null;
 
+                }
             }
         }
     }
@@ -202,6 +208,14 @@ public class Jeu extends Observable {
                                  MoveCase(direction, getCase(x, y));
                              }
                          }
+                         for(int y = 0; y< tabCases.length; y++){
+                             if(tabCases[x][y]== null){
+                                 System.out.print(" 0 | ");
+                             }else{
+                                 System.out.print(tabCases[x][y].getValeur() + " | "  );}
+                             if(tabCases[x][y]!=null){tabCases[x][y].setFusionnable(true);}
+                         }
+                         System.out.println("");
                      }
                      break;
 
@@ -231,12 +245,19 @@ public class Jeu extends Observable {
                      //On parcour les x colones
                      for(int y = 0; y < tabCases.length; y++){
                          //On parcour la x colone de haut en bas
-                         for(int x = 0; y < tabCases.length; x++){
+                         for(int x = 0; x < tabCases.length; x++){
                              System.out.println("Je me situe à la case ["+x+"]["+y+"]");
                              if(tabCases[x][y]!=null) {
                                  MoveCase(direction, getCase(x, y));
                                  tabCases[x][y].setFusionnable(true);
                              }
+                         }
+                         for(int x = 0 ; x < tabCases.length; x++){
+                             if(tabCases[x][y]== null){
+                                 System.out.println("0 | ");
+                             }else{
+                                 System.out.println(tabCases[x][y].getValeur() + " | "  );}
+                             if(tabCases[x][y]!=null){tabCases[x][y].setFusionnable(true);}
                          }
                      }
 
@@ -250,6 +271,13 @@ public class Jeu extends Observable {
                              if(tabCases[x][y]!=null) {
                                  MoveCase(direction, getCase(x, y));
                              }
+                         }
+                         for(int x = 0 ; x < tabCases.length; x++){
+                             if(tabCases[x][y]== null){
+                                 System.out.println("0 | ");
+                             }else{
+                                 System.out.println(tabCases[x][y].getValeur() + " | "  );}
+                             if(tabCases[x][y]!=null){tabCases[x][y].setFusionnable(true);}
                          }
                      }
 
@@ -279,7 +307,9 @@ public class Jeu extends Observable {
 
     public Case getCaseInDirection(Direction D, Case kase) {
         boolean outofrange = false;
-        Point p = map.get(kase);
+        Point p = new Point(map.get(kase));
+
+
         System.out.print("            //Je suis la case ["+p.x+"]["+p.y+"] et ma case voisin est la case ");
         if(p == null){return null;}
         switch(D) {

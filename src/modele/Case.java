@@ -10,6 +10,7 @@ public class Case {
         this.fusionnable = true;
     }
 
+
     public int getValeur() {
         return this.valeur;
     }
