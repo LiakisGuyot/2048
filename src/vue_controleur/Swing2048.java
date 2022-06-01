@@ -30,11 +30,15 @@ public class Swing2048 extends JFrame implements Observer {
 
 
         JPanel contentPane = new JPanel(new GridLayout(jeu.getSize(), jeu.getSize()));
+        contentPane.setOpaque(true);
+        contentPane.setBackground(Color.WHITE);
 
         for (int i = 0; i < jeu.getSize(); i++) {
             for (int j = 0; j < jeu.getSize(); j++) {
                 Border border = BorderFactory.createLineBorder(Color.darkGray, 5);
                 tabC[i][j] = new JLabel();
+                tabC[i][j].setOpaque(true);
+                tabC[i][j].setBackground(Colorisation(i,j));
                 tabC[i][j].setBorder(border);
                 tabC[i][j].setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -63,7 +67,7 @@ public class Swing2048 extends JFrame implements Observer {
                 for (int i = 0; i < jeu.getSize(); i++) {
                     for (int j = 0; j < jeu.getSize(); j++) {
                         Case c = jeu.getCase(i, j);
-
+                        tabC[i][j].setBackground(Colorisation(i,j));
                         if (c == null) {
 
                             tabC[i][j].setText("");
@@ -80,7 +84,16 @@ public class Swing2048 extends JFrame implements Observer {
 
 
     }
+    private Color Colorisation(int i, int j ){
+        Color mycolor = new Color(0,0,0);
+        int myvaleur = jeu.getCase(i,j).getValeur();
+        switch(){
+            break;
+        }
 
+
+        return Color.BLUE;
+    }
     /**
      * Correspond à la fonctionnalité de Contrôleur : écoute les évènements, et déclenche des traitements sur le modèle
      */
