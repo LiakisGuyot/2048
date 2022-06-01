@@ -326,5 +326,6 @@ public class Jeu extends Observable {
 
     //endregion
 
+    //NOTES : Pour le score, ajouter la valeur de chaque case qui vient de fusionner et voala
 
 }
