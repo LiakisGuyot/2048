@@ -230,7 +230,7 @@ public class Jeu extends Observable {
                                  MoveCase(direction, getCase(x, y));
                              }
                          }
-                         for(int y = 0; y< tabCases.length; y++){
+                         for(int y = tabCases.length -1; y >= 0; y--){
                              if(tabCases[x][y]== null){
                                  System.out.print(" 0 | ");
                              }else{
@@ -245,14 +245,13 @@ public class Jeu extends Observable {
                      //On parcour les x colones
                      for(int y = 0; y < tabCases.length; y++){
                          //On parcour la x colone de haut en bas
-                         for(int x = 0; x < tabCases.length; x++){
+                         for(int x = 0 ; x <=tabCases.length -1; x++){
                              System.out.println("Je me situe à la case ["+x+"]["+y+"]");
                              if(tabCases[x][y]!=null) {
                                  MoveCase(direction, getCase(x, y));
-                                 tabCases[x][y].setFusionnable(true);
                              }
                          }
-                         for(int x = 0 ; x < tabCases.length; x++){
+                         for(int x = 0 ; x <=tabCases.length -1; x++){
                              if(tabCases[x][y]== null){
                                  System.out.println("0 | ");
                              }else{
@@ -272,7 +271,7 @@ public class Jeu extends Observable {
                                  MoveCase(direction, getCase(x, y));
                              }
                          }
-                         for(int x = 0 ; x < tabCases.length; x++){
+                         for(int x = tabCases.length -1; x >= 0; x--){
                              if(tabCases[x][y]== null){
                                  System.out.println("0 | ");
                              }else{
