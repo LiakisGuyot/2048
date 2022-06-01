@@ -86,7 +86,7 @@ public class Jeu extends Observable {
             }
             Case nextCase = getCaseInDirection(D, kase);
             if(nextCase == null){return true;}
-            if(nextCase.isFusionable() == false || nextCase.getValeur()!=kase.getValeur() ){
+            if(nextCase.isFusionable() == false || nextCase.getValeur()!=kase.getValeur() || kase.isFusionable() == false ){
                 return false;
             }
             return true;
@@ -118,7 +118,7 @@ public class Jeu extends Observable {
         if(CanMove(D,kase)==false){
             System.out.println("   //Je ne peux pas bouger");
         }else{
-            while (CanMove(D, kase)==true) {
+            while (CanMove(D, kase)==true ) {
                     System.out.println("        //Je peux bouger, je regarde quel est la case à coté de moi");
                 Case nextCase = getCaseInDirection(D, kase);
                                     if(nextCase != null) {
@@ -127,7 +127,7 @@ public class Jeu extends Observable {
                 if (nextCase == null) {
                     Move(D, kase);
                 }
-                else if (kase.canIFuseWith(nextCase)) {
+                else if (kase.isFusionable() && kase.canIFuseWith(nextCase)) {
                     //Delete previous case ?
                     Point pnextcase = map.get(nextCase);
                     Point pcurrentcase = map.get(kase);
