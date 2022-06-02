@@ -356,10 +356,10 @@ public class Jeu extends Observable {
 
         Case caseToAdd;
         if (rand > 0) {
-            caseToAdd = new Case(1024);
+            caseToAdd = new Case(2);
         }
         else {
-            caseToAdd = new Case(4096);
+            caseToAdd = new Case(4);
         }
         System.out.println("RANDOM 1-10 = " + rand + "     CASE TO ADD = " + caseToAdd.getValeur()); //Probleme : x et y mal gérés par rapport à i et j
 
