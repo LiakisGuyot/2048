@@ -1,6 +1,7 @@
 package modele;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Random;
@@ -123,8 +124,7 @@ public class Jeu extends Observable {
             Case nextCase = getCaseInDirection(D, kase);
             if (nextCase == null) {
                 Move(D, kase);
-            }
-            else if (kase.isFusionable() && kase.canIFuseWith(nextCase)) {
+            } else if (kase.isFusionable() && kase.canIFuseWith(nextCase)) {
                 //Delete previous case ?
                 Point pnextcase = map.get(nextCase);
                 Point pcurrentcase = map.get(kase);
@@ -261,11 +261,10 @@ public class Jeu extends Observable {
                                 }
                             }
                         }
-
                         break;
-
                 }
 
+                AddRandomCase();
 
                 //Mise à jour côté graphique
                 setChanged();
@@ -325,6 +324,51 @@ public class Jeu extends Observable {
     }
 
     //endregion
+
+    public void AddRandomCase() {
+        Case[][] tabEmptyCases = new Case[tabCases.length][tabCases.length];
+        HashMap<Case, Point> mapOfEmpty = new HashMap<Case, Point>();
+        ArrayList<Point> listEmpty = new ArrayList<>();
+
+        //Parcourir le tableau et recup une liste des cases vides :
+        System.out.println("Liste des coordonnées des cases vides :\n");
+        for (int i = 0; i < tabCases.length; i++) {
+            for (int j = 0; j < tabCases.length; j++) {
+                if (tabCases[i][j] == null) {
+                    mapOfEmpty.put(tabCases[i][j], new Point(i, j));
+                    listEmpty.add(new Point(i, j));
+                    System.out.println("[" + i + ", " + j + "]");
+                }
+            }
+        }
+
+
+        //Assignation d'une case de valeur 2 ou 4 dans la case selectionnée :
+        int randomCase;
+        int rand;
+
+        randomCase = rnd.nextInt(listEmpty.size());
+        rand = rnd.nextInt(10);
+
+        System.out.println("SIZE OF LIST EMPTY CASES : " + listEmpty.size());
+
+        System.out.println("INT OF CASE SELECTED IN LIST : " + randomCase);
+
+        Case caseToAdd;
+        if (rand > 0) {
+            caseToAdd = new Case(1024);
+        }
+        else {
+            caseToAdd = new Case(4096);
+        }
+        System.out.println("RANDOM 1-10 = " + rand + "     CASE TO ADD = " + caseToAdd.getValeur()); //Probleme : x et y mal gérés par rapport à i et j
+
+        System.out.println("COORDS OF CASE TO ADD " + listEmpty.get(randomCase).x + ", " + listEmpty.get(randomCase).y);
+
+        tabCases[listEmpty.get(randomCase).x][listEmpty.get(randomCase).y] = caseToAdd;
+        map.put(caseToAdd, new Point(listEmpty.get(randomCase).x, listEmpty.get(randomCase).y));
+        //tabCases[listEmpty.get(randomCase).x][listEmpty.get(randomCase).y]
+    }
 
     //NOTES : Pour le score, ajouter la valeur de chaque case qui vient de fusionner et voala
 
