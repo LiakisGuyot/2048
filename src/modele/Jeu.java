@@ -12,6 +12,7 @@ public class Jeu extends Observable {
     //Pour suppresion case faire un tabCases = null et removede la HashMap
     private static Random rnd = new Random(3918);
     private HashMap<Case, Point> map = new HashMap<Case, Point>();
+    private boolean canGenerate = false;
 
     public Jeu(int size) {
         tabCases = new Case[size][size];
@@ -60,7 +61,7 @@ public class Jeu extends Observable {
     //endregion
 
     //region Differents tests
-    public boolean CanMove(Direction D, Case kase) {
+    public boolean CanMove(Direction D, Case kase) { //Vérifie que la case ne soit pas au bord du plateau
         if (kase == null) {
             return false;
         }
@@ -120,12 +121,13 @@ public class Jeu extends Observable {
     }
 
     public void MoveCase(Direction D, Case kase) {
-        while (CanMove(D, kase) == true) {
+        while (CanMove(D, kase)) {
             Case nextCase = getCaseInDirection(D, kase);
-            if (nextCase == null) {
+            if (nextCase == null) { //Move si next case est vide
                 Move(D, kase);
-            } else if (kase.isFusionable() && kase.canIFuseWith(nextCase)) {
-                //Delete previous case ?
+                setCanGenerate(true); //Une case a bougé : canGenerate = true
+            }
+            else if (kase.isFusionable() && kase.canIFuseWith(nextCase)) { //Move si fusion avec next case
                 Point pnextcase = map.get(nextCase);
                 Point pcurrentcase = map.get(kase);
                 tabCases[pcurrentcase.x][pcurrentcase.y] = null;
@@ -133,8 +135,7 @@ public class Jeu extends Observable {
                 pcurrentcase = pnextcase;
                 map.put(kase, pcurrentcase);
                 map.remove(nextCase);
-                nextCase = null;
-
+                setCanGenerate(true); //Une case a bougé : canGenerate = true
             }
         }
     }
@@ -323,51 +324,50 @@ public class Jeu extends Observable {
         return tabCases[p.x][p.y];
     }
 
+    public void setCanGenerate(boolean canGenerate) {
+        this.canGenerate = canGenerate;
+    }
+
     //endregion
 
     public void AddRandomCase() {
-        Case[][] tabEmptyCases = new Case[tabCases.length][tabCases.length];
-        HashMap<Case, Point> mapOfEmpty = new HashMap<Case, Point>();
-        ArrayList<Point> listEmpty = new ArrayList<>();
+        if (canGenerate) {
+            HashMap<Case, Point> mapOfEmpty = new HashMap<>();
+            ArrayList<Point> listEmpty = new ArrayList<>();
 
-        //Parcourir le tableau et recup une liste des cases vides :
-        System.out.println("Liste des coordonnées des cases vides :\n");
-        for (int i = 0; i < tabCases.length; i++) {
-            for (int j = 0; j < tabCases.length; j++) {
-                if (tabCases[i][j] == null) {
-                    mapOfEmpty.put(tabCases[i][j], new Point(i, j));
-                    listEmpty.add(new Point(i, j));
-                    System.out.println("[" + i + ", " + j + "]");
+            //Parcourir le tableau et recup une liste des cases vides :
+            for (int i = 0; i < tabCases.length; i++) {
+                for (int j = 0; j < tabCases.length; j++) {
+                    if (tabCases[i][j] == null) {
+                        mapOfEmpty.put(tabCases[i][j], new Point(i, j));
+                        listEmpty.add(new Point(i, j));
+                    }
                 }
             }
+
+            //Assignation d'une case de valeur 2 ou 4 dans la case selectionnée :
+            int randomCase;
+            int rand;
+
+            randomCase = rnd.nextInt(listEmpty.size());
+            rand = rnd.nextInt(10);
+
+            Case caseToAdd;
+            if (rand > 0) {
+                caseToAdd = new Case(2);
+            }
+            else {
+                caseToAdd = new Case(4);
+            }
+            tabCases[listEmpty.get(randomCase).x][listEmpty.get(randomCase).y] = caseToAdd;
+            map.put(caseToAdd, new Point(listEmpty.get(randomCase).x, listEmpty.get(randomCase).y));
+
+            setCanGenerate(false); //La case est générée, canGenerate = false;
         }
+    }
 
+    public boolean CheckIfGameOver() {
 
-        //Assignation d'une case de valeur 2 ou 4 dans la case selectionnée :
-        int randomCase;
-        int rand;
-
-        randomCase = rnd.nextInt(listEmpty.size());
-        rand = rnd.nextInt(10);
-
-        System.out.println("SIZE OF LIST EMPTY CASES : " + listEmpty.size());
-
-        System.out.println("INT OF CASE SELECTED IN LIST : " + randomCase);
-
-        Case caseToAdd;
-        if (rand > 0) {
-            caseToAdd = new Case(2);
-        }
-        else {
-            caseToAdd = new Case(4);
-        }
-        System.out.println("RANDOM 1-10 = " + rand + "     CASE TO ADD = " + caseToAdd.getValeur()); //Probleme : x et y mal gérés par rapport à i et j
-
-        System.out.println("COORDS OF CASE TO ADD " + listEmpty.get(randomCase).x + ", " + listEmpty.get(randomCase).y);
-
-        tabCases[listEmpty.get(randomCase).x][listEmpty.get(randomCase).y] = caseToAdd;
-        map.put(caseToAdd, new Point(listEmpty.get(randomCase).x, listEmpty.get(randomCase).y));
-        //tabCases[listEmpty.get(randomCase).x][listEmpty.get(randomCase).y]
     }
 
     //NOTES : Pour le score, ajouter la valeur de chaque case qui vient de fusionner et voala
