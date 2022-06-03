@@ -92,7 +92,7 @@ public class Jeu extends Observable {
         if (nextCase == null) {
             return true;
         }
-        if (nextCase.isFusionable() == false || nextCase.getValeur() != kase.getValeur() || kase.isFusionable() == false) {
+        if (!nextCase.isFusionable() || nextCase.getValeur() != kase.getValeur() || !kase.isFusionable()) {
             return false;
         }
         return true;
@@ -126,8 +126,7 @@ public class Jeu extends Observable {
             if (nextCase == null) { //Move si next case est vide
                 Move(D, kase);
                 setCanGenerate(true); //Une case a bougé : canGenerate = true
-            }
-            else if (kase.isFusionable() && kase.canIFuseWith(nextCase)) { //Move si fusion avec next case
+            } else if (kase.isFusionable() && kase.canIFuseWith(nextCase)) { //Move si fusion avec next case
                 Point pnextcase = map.get(nextCase);
                 Point pcurrentcase = map.get(kase);
                 tabCases[pcurrentcase.x][pcurrentcase.y] = null;
@@ -228,8 +227,8 @@ public class Jeu extends Observable {
                                 }
                             }
                         }
-
                         break;
+
                     case haut:
                         //On parcour les x colones
                         for (int y = 0; y < tabCases.length; y++) {
@@ -245,8 +244,8 @@ public class Jeu extends Observable {
                                 }
                             }
                         }
-
                         break;
+
                     case bas:
                         //On parcour les x colones
                         for (int y = 0; y < tabCases.length; y++) {
@@ -266,6 +265,7 @@ public class Jeu extends Observable {
                 }
 
                 AddRandomCase();
+                boolean test = CheckIfGameOver();
 
                 //Mise à jour côté graphique
                 setChanged();
@@ -332,14 +332,12 @@ public class Jeu extends Observable {
 
     public void AddRandomCase() {
         if (canGenerate) {
-            HashMap<Case, Point> mapOfEmpty = new HashMap<>();
             ArrayList<Point> listEmpty = new ArrayList<>();
 
             //Parcourir le tableau et recup une liste des cases vides :
             for (int i = 0; i < tabCases.length; i++) {
                 for (int j = 0; j < tabCases.length; j++) {
                     if (tabCases[i][j] == null) {
-                        mapOfEmpty.put(tabCases[i][j], new Point(i, j));
                         listEmpty.add(new Point(i, j));
                     }
                 }
@@ -355,8 +353,7 @@ public class Jeu extends Observable {
             Case caseToAdd;
             if (rand > 0) {
                 caseToAdd = new Case(2);
-            }
-            else {
+            } else {
                 caseToAdd = new Case(4);
             }
             tabCases[listEmpty.get(randomCase).x][listEmpty.get(randomCase).y] = caseToAdd;
@@ -366,8 +363,79 @@ public class Jeu extends Observable {
         }
     }
 
-    public boolean CheckIfGameOver() {
+    public boolean CheckIfGameOver() { //Si une case peut bouger ou fusionner, on passe le gameOver à false
+        boolean gameOver = true;
 
+        //case gauche:
+        for (int x = 0; x < tabCases.length; x++) { //On parcour les lignes de haut en bas
+            for (int y = 0; y < tabCases.length; y++) { //On parcour la ligne y de gauche à droite
+                if (tabCases[x][y] != null) {
+                    if (CanMove(Direction.gauche, getCase(x, y))) {
+                        Case nextCase = getCaseInDirection(Direction.gauche, getCase(x, y));
+                        if (nextCase == null) { //Move si next case est vide
+                            gameOver = false;
+                        }
+                        else if (getCase(x, y).isFusionable() && getCase(x, y).testCanIFuseWith(nextCase)) { //Move si fusion avec next case
+                            gameOver = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        //case droite:
+        for (int x = 0; x < tabCases.length; x++) { //On  parcour les y lignes
+            for (int y = tabCases.length - 1; y >= 0; y--) { //On parcour la ligne y de droite à gauche
+                if (tabCases[x][y] != null) {
+                    if (CanMove(Direction.droite, getCase(x, y))) {
+                        Case nextCase = getCaseInDirection(Direction.droite, getCase(x, y));
+                        if (nextCase == null) { //Move si next case est vide
+                            gameOver = false;
+                        }
+                        else if (getCase(x, y).isFusionable() && getCase(x, y).testCanIFuseWith(nextCase)) { //Move si fusion avec next case
+                            gameOver = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        //case haut:
+        for (int y = 0; y < tabCases.length; y++) { //On parcour les x colones
+            for (int x = 0; x <= tabCases.length - 1; x++) { //On parcour la x colone de haut en bas
+                if (tabCases[x][y] != null) {
+                    if (CanMove(Direction.haut, getCase(x, y))) {
+                        Case nextCase = getCaseInDirection(Direction.haut, getCase(x, y));
+                        if (nextCase == null) { //Move si next case est vide
+                            gameOver = false;
+                        }
+                        else if (getCase(x, y).isFusionable() && getCase(x, y).testCanIFuseWith(nextCase)) { //Move si fusion avec next case
+                            gameOver = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        //case bas:
+        for (int y = 0; y < tabCases.length; y++) { //On parcour les x colones
+            for (int x = tabCases.length - 1; x >= 0; x--) { //On parcour la colone x de bas en haut
+                if (tabCases[x][y] != null) {
+                    if (CanMove(Direction.bas, getCase(x, y))) {
+                        Case nextCase = getCaseInDirection(Direction.bas, getCase(x, y));
+                        if (nextCase == null) { //Move si next case est vide
+                            gameOver = false;
+                        }
+                        else if (getCase(x, y).isFusionable() && getCase(x, y).testCanIFuseWith(nextCase)) { //Move si fusion avec next case
+                            gameOver = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        System.out.println("RESULT TEST : " + gameOver);
+        return gameOver;
     }
 
     //NOTES : Pour le score, ajouter la valeur de chaque case qui vient de fusionner et voala

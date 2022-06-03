@@ -24,9 +24,16 @@ public class Case {
     }
 
     public boolean canIFuseWith(Case kase) {
-        if (this.valeur == kase.getValeur() && kase.isFusionable() == true) {
+        if (this.valeur == kase.getValeur() && kase.isFusionable()) {
             Fuse();
 
+            return true;
+        }
+        return false;
+    }
+
+    public boolean testCanIFuseWith(Case kase) {
+        if (this.valeur == kase.getValeur() && kase.isFusionable()) {
             return true;
         }
         return false;
