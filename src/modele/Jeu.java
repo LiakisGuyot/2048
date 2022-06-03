@@ -1,6 +1,5 @@
 package modele;
 
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
@@ -13,6 +12,7 @@ public class Jeu extends Observable {
     private static Random rnd = new Random(3918);
     private HashMap<Case, Point> map = new HashMap<Case, Point>();
     private boolean canGenerate = false;
+    private int score = 0;
 
     public Jeu(int size) {
         tabCases = new Case[size][size];
@@ -135,6 +135,7 @@ public class Jeu extends Observable {
                 map.put(kase, pcurrentcase);
                 map.remove(nextCase);
                 setCanGenerate(true); //Une case a bougé : canGenerate = true
+                AddToScore(kase);
             }
         }
     }
@@ -436,6 +437,11 @@ public class Jeu extends Observable {
 
         System.out.println("RESULT TEST : " + gameOver);
         return gameOver;
+    }
+
+    public void AddToScore(Case kase) {
+        score += kase.getValeur();
+        System.out.println("Score : " + score);
     }
 
     //NOTES : Pour le score, ajouter la valeur de chaque case qui vient de fusionner et voala
