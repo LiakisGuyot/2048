@@ -20,6 +20,9 @@ public class Swing2048 extends JFrame implements Observer {
     // tableau de cases : i, j -> case graphique
     private JLabel[][] tabC;
     private Jeu jeu;
+    private JMenuBar menuBar;
+    private JPanel gameOverPanel;
+    private JLabel gameOverScore;
 
 
     public Swing2048(Jeu _jeu) {
@@ -47,6 +50,29 @@ public class Swing2048 extends JFrame implements Observer {
 
             }
         }
+
+        //HERE TEST ADD SCORE
+        menuBar = new JMenuBar();
+        JMenu menu = new JMenu("Score : " + jeu.getScore());
+        menuBar.add(menu);
+        setJMenuBar(menuBar);
+
+        gameOverPanel = new JPanel(new GridLayout(jeu.getSize(), jeu.getSize()));
+        contentPane.setOpaque(true);
+        contentPane.setBackground(Color.WHITE);
+        JLabel gameOverText = new JLabel("GAME OVER");
+        gameOverText.setOpaque(true);
+        gameOverText.setHorizontalAlignment(SwingConstants.CENTER);
+        gameOverText.setVerticalAlignment(SwingConstants.CENTER);
+        gameOverText.setFont(new Font("Arial", Font.BOLD, 20));
+        gameOverScore = new JLabel("Score : " + jeu.getScore());
+        gameOverScore.setOpaque(true);
+        gameOverScore.setHorizontalAlignment(SwingConstants.CENTER);
+        gameOverScore.setVerticalAlignment(SwingConstants.CENTER);
+        gameOverScore.setFont(new Font("Arial", Font.BOLD, 20));
+        gameOverPanel.add(gameOverText);
+        gameOverPanel.add(gameOverScore);
+
         setContentPane(contentPane);
         ajouterEcouteurClavier();
         rafraichir();
@@ -76,6 +102,16 @@ public class Swing2048 extends JFrame implements Observer {
 
 
                     }
+                }
+                menuBar = new JMenuBar();
+                JMenu menu = new JMenu("Score : " + jeu.getScore());
+                menuBar.add(menu);
+                setJMenuBar(menuBar);
+
+                if(jeu.getGameOver()) {
+                    gameOverScore.setText("Score : " + jeu.getScore());
+                    setContentPane(gameOverPanel);
+                    menuBar.remove(menu);
                 }
             }
         });

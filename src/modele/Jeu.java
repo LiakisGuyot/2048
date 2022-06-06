@@ -13,6 +13,7 @@ public class Jeu extends Observable {
     private HashMap<Case, Point> map = new HashMap<Case, Point>();
     private boolean canGenerate = false;
     private int score = 0;
+    private boolean gameOver = false;
 
     public Jeu(int size) {
         tabCases = new Case[size][size];
@@ -329,6 +330,10 @@ public class Jeu extends Observable {
         this.canGenerate = canGenerate;
     }
 
+    public int getScore() { return score; }
+
+    public boolean getGameOver() { return gameOver; }
+
     //endregion
 
     public void AddRandomCase() {
@@ -365,7 +370,7 @@ public class Jeu extends Observable {
     }
 
     public boolean CheckIfGameOver() { //Si une case peut bouger ou fusionner, on passe le gameOver à false
-        boolean gameOver = true;
+        gameOver = true;
 
         //case gauche:
         for (int x = 0; x < tabCases.length; x++) { //On parcour les lignes de haut en bas
@@ -435,7 +440,7 @@ public class Jeu extends Observable {
             }
         }
 
-        System.out.println("RESULT TEST : " + gameOver);
+        System.out.println("Game Over : " + gameOver);
         return gameOver;
     }
 
