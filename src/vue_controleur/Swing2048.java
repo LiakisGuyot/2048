@@ -42,6 +42,7 @@ public class Swing2048 extends JFrame implements Observer {
                 tabC[i][j].setBackground(Colorisation(i, j));
                 tabC[i][j].setBorder(border);
                 tabC[i][j].setHorizontalAlignment(SwingConstants.CENTER);
+                tabC[i][j].setFont(new Font("Arial", Font.BOLD, 30));
 
 
                 contentPane.add(tabC[i][j]);
@@ -127,8 +128,6 @@ public class Swing2048 extends JFrame implements Observer {
                 }
             }
         });
-
-
     }
 
     private Color Colorisation(int i, int j) {
