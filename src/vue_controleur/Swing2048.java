@@ -140,16 +140,26 @@ public class Swing2048 extends JFrame implements Observer {
         //128  --> 1024 : rouge --> jaune   level 1
         //2048 --> 8192 : jaune --> vert    level 2
         //16384 ++      : vert              level 3
+
+        //2    --> 16   : blanc --> rouge   level 0
+        //32   --> 64  : rouge --> jaune   level 1
+        //128  --> 512  : jaune --> vert    level 2
+        //1024 --> 2048 : vert  --> bleu    level 3
+        //2048 --> ++++ : bleu              level 4
+
         int level = 0;
         int correspond = 0;
-        if (myvaleur >= 8) {
+        if (myvaleur >= 32) {
             level = 1;
         }
-        if (myvaleur >= 32) {
+        if (myvaleur >= 128) {
             level = 2;
         }
-        if (myvaleur >= 128) {
+        if (myvaleur >= 1024) {
             level = 3;
+        }
+        if (myvaleur >= 2048) {
+            level = 4;
         }
 
         switch (level) {
@@ -169,7 +179,12 @@ public class Swing2048 extends JFrame implements Observer {
                 break;
 
             case 3:
-                mycolor = new Color(0, 255, 0); //Juste vert en fait
+                correspond = myvaleur * 255 / 8192; //Juste vert en fait
+                mycolor = new Color(0, 255 - correspond, 0 + correspond); //jaune --> vert
+                break;
+
+            case 4:
+                mycolor = new Color(0, 0, 255); //Juste vert en fait
                 break;
         }
 
