@@ -1,5 +1,6 @@
 package vue_controleur;
 
+import com.sun.tools.javac.Main;
 import modele.Case;
 import modele.Direction;
 import modele.Jeu;
@@ -7,10 +8,7 @@ import modele.Jeu;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
@@ -51,7 +49,6 @@ public class Swing2048 extends JFrame implements Observer {
             }
         }
 
-        //HERE TEST ADD SCORE
         menuBar = new JMenuBar();
         JMenu menu = new JMenu("Score : " + jeu.getScore());
         menuBar.add(menu);
@@ -64,7 +61,7 @@ public class Swing2048 extends JFrame implements Observer {
         gameOverText.setOpaque(true);
         gameOverText.setHorizontalAlignment(SwingConstants.CENTER);
         gameOverText.setVerticalAlignment(SwingConstants.CENTER);
-        gameOverText.setFont(new Font("Arial", Font.BOLD, 20));
+        gameOverText.setFont(new Font("Arial", Font.BOLD, 30));
         gameOverScore = new JLabel("Score : " + jeu.getScore());
         gameOverScore.setOpaque(true);
         gameOverScore.setHorizontalAlignment(SwingConstants.CENTER);
@@ -72,6 +69,21 @@ public class Swing2048 extends JFrame implements Observer {
         gameOverScore.setFont(new Font("Arial", Font.BOLD, 20));
         gameOverPanel.add(gameOverText);
         gameOverPanel.add(gameOverScore);
+
+        /*
+        JButton playButton = new JButton("Click Here");
+        //playButton.setBounds(50,100,95,30);
+        playButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.main(new String[] );
+                //setContentPane(contentPane);
+                //rafraichir();
+            }
+        });
+        gameOverPanel.add(playButton);*/
+
+
 
         setContentPane(contentPane);
         ajouterEcouteurClavier();
