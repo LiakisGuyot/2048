@@ -14,7 +14,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class Swing2048 extends JFrame implements Observer {
-    private static final int PIXEL_PER_SQUARE = 60;
+    private static final int PIXEL_PER_SQUARE = 120;
     // tableau de cases : i, j -> case graphique
     private JLabel[][] tabC;
     private Jeu jeu;
@@ -143,13 +143,13 @@ public class Swing2048 extends JFrame implements Observer {
         //16384 ++      : vert              level 3
         int level = 0;
         int correspond = 0;
-        if (myvaleur >= 64) {
+        if (myvaleur >= 8) {
             level = 1;
         }
-        if (myvaleur >= 1024) {
+        if (myvaleur >= 32) {
             level = 2;
         }
-        if (myvaleur >= 8192) {
+        if (myvaleur >= 128) {
             level = 3;
         }
 
