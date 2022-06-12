@@ -142,7 +142,7 @@ public class Swing2048 extends JFrame implements Observer {
         //16384 ++      : vert              level 3
 
         //2    --> 16   : blanc --> rouge   level 0
-        //32   --> 64  : rouge --> jaune   level 1
+        //32   --> 64  : rouge --> jaune    level 1
         //128  --> 512  : jaune --> vert    level 2
         //1024 --> 2048 : vert  --> bleu    level 3
         //2048 --> ++++ : bleu              level 4
