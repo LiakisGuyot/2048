@@ -136,10 +136,6 @@ public class Swing2048 extends JFrame implements Observer {
             return Color.white;
         }
         int myvaleur = jeu.getCase(i, j).getValeur();
-        //2    --> 64   : blanc --> rouge   level 0
-        //128  --> 1024 : rouge --> jaune   level 1
-        //2048 --> 8192 : jaune --> vert    level 2
-        //16384 ++      : vert              level 3
 
         //2    --> 16   : blanc --> rouge   level 0
         //32   --> 64  : rouge --> jaune    level 1
